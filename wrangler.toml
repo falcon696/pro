@@ -2,7 +2,7 @@
 name = "pro"
 compatibility_date = "2026-06-17"
 account_id = "27323dd4a4906aeec2b9192f9ccdb634"
-workers_dev = false
+workers_dev = true
 compatibility_flags = ["nodejs_compat"]
 main = ".open-next/worker.js"
 site = { bucket = ".open-next/assets", include = ["**/*"] }
