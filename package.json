@@ -4,11 +4,11 @@
   "description": "Falcon - Digital Solutions Portfolio",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && opennextjs-cloudflare build --skipNextBuild",
     "cloudflare:migrate": "opennextjs-cloudflare migrate",
     "cloudflare:build": "next build && opennextjs-cloudflare build --skipNextBuild",
     "cloudflare:preview": "opennextjs-cloudflare preview",
-    "cloudflare:deploy": "opennextjs-cloudflare deploy",
+    "cloudflare:deploy": "npm run cloudflare:build && opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "next lint"
   },

@@ -3,6 +3,8 @@ name = "falcon-portfolio"
 compatibility_date = "2026-06-17"
 account_id = "YOUR_ACCOUNT_ID"
 workers_dev = false
+compatibility_flags = ["nodejs_compat"]
+main = ".open-next/worker.js"
 # To deploy to a custom domain uncomment and set the route or routes
 # route = "example.com/*"
 # routes = ["example.com/*"]
@@ -10,6 +12,9 @@ workers_dev = false
 # Use modules type for ESM output (removed — handled by OpenNext)
 # Optional: specify a directory for static assets if using Pages or R2
 # site = { bucket = "public", include = ["**/*"] }
+
+[build]
+command = "npm run cloudflare:build"
 
 # Build command is run locally; OpenNext will output Worker files into .open-next by default
 
