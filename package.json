@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "opennextjs-cloudflare build --skipNextBuild",
+    "cloudflare:migrate": "opennextjs-cloudflare migrate",
+    "cloudflare:build": "next build && opennextjs-cloudflare build --skipNextBuild",
+    "cloudflare:preview": "opennextjs-cloudflare preview",
+    "cloudflare:deploy": "opennextjs-cloudflare deploy",
     "start": "next start",
     "lint": "next lint"
   },
