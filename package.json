@@ -1,0 +1,35 @@
+{
+  "name": "falcon-portfolio",
+  "version": "1.0.0",
+  "description": "Falcon - Digital Solutions Portfolio",
+  "scripts": {
+    "dev": "next dev",
+    "build": "opennextjs-cloudflare build",
+    "cloudflare:migrate": "opennextjs-cloudflare migrate",
+    "cloudflare:build": "opennextjs-cloudflare build",
+    "cloudflare:preview": "opennextjs-cloudflare preview",
+    "cloudflare:deploy": "npm run cloudflare:build && opennextjs-cloudflare deploy",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.14",
+    "framer-motion": "^10.16.4",
+    "next": "^15.5.19",
+    "postcss": "^8.4.24",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-icons": "^4.11.0",
+    "react-intersection-observer": "^9.5.2",
+    "tailwindcss": "^3.3.0"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "^1.19.11",
+    "@types/node": "^20.4.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.2.0",
+    "wrangler": "^4.101.0"
+  }
+}
