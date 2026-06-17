@@ -1,22 +1,10 @@
-# Wrangler config for Cloudflare Workers (replace placeholders before deploying)
 name = "pro"
+main = ".open-next/worker.js"
 compatibility_date = "2026-06-17"
 account_id = "27323dd4a4906aeec2b9192f9ccdb634"
+
 workers_dev = true
 compatibility_flags = ["nodejs_compat"]
-main = ".open-next/worker.js"
-site = { bucket = ".open-next/assets", include = ["**/*"] }
-# To deploy to a custom domain uncomment and set the route or routes
-# route = "..."
-# routes = [...]
-
-# Use modules type for ESM output (removed — handled by OpenNext)
-# Optional: specify a directory for static assets if using Pages or R2
-# site = { bucket = "public", include = ["**/*"] }
 
 [build]
 command = "npm run cloudflare:build"
-
-# Build command is run locally; OpenNext will output Worker files into .open-next by default
-
-# NOTE: Fill `account_id` and optionally `route` before running `wrangler deploy`.
