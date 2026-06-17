@@ -34,19 +34,25 @@ export default function Contact() {
     setErrorMessage('');
 
     try {
-      const response = await fetch('/api/contact', {
+      const formspreeEndpoint = 'https://formspree.io/f/REPLACE_WITH_FORM_ID';
+
+      const response = await fetch(formspreeEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
         setStatus('error');
-        setErrorMessage(result?.error || 'Unable to send message.');
+        setErrorMessage(data?.error || 'Unable to send message.');
         return;
       }
 
