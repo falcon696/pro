@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const resendApiKey = process.env.RESEND_API_KEY;
+    const resendApiKey = process.env.RESEND_API_KEY || 're_AWaWE5sZ_PCWiuKZef5MQGNgBrcbYmDXR';
     const contactEmail = process.env.CONTACT_EMAIL || 'falconxxx475@gmail.com';
     const fromEmail = process.env.FROM_EMAIL || 'no-reply@falcon-portfolio.example.com';
 

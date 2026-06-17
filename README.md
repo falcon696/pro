@@ -109,6 +109,10 @@ src/
 To enable form submission, copy `.env.example` to `.env.local` and set:
 - `RESEND_API_KEY`, `CONTACT_EMAIL`, and `FROM_EMAIL`
 
+For deployment to Cloudflare Workers, do not commit the key to source control. Instead set it as a secret or environment variable in your Cloudflare project:
+- `wrangler secret put RESEND_API_KEY`
+- or configure `RESEND_API_KEY` in the Cloudflare dashboard for your Worker
+
 ## Customization
 
 ### Colors
