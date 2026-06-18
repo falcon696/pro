@@ -188,12 +188,14 @@ export default function Contact() {
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
               <motion.div variants={itemVariants}>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label htmlFor="contact-name" className="block text-sm font-semibold text-gray-300 mb-2">
                   Your Name
                 </label>
                 <input
+                  id="contact-name"
                   type="text"
                   name="name"
+                  autoComplete="name"
                   value={formData.name}
                   onChange={handleChange}
                   required
@@ -202,12 +204,14 @@ export default function Contact() {
                 />
               </motion.div>
               <motion.div variants={itemVariants}>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">
+                <label htmlFor="contact-email" className="block text-sm font-semibold text-gray-300 mb-2">
                   Your Email
                 </label>
                 <input
+                  id="contact-email"
                   type="email"
                   name="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -218,11 +222,13 @@ export default function Contact() {
             </div>
 
             <motion.div variants={itemVariants} className="mb-6">
-              <label className="block text-sm font-semibold text-gray-300 mb-2">
+              <label htmlFor="contact-message" className="block text-sm font-semibold text-gray-300 mb-2">
                 Your Message
               </label>
               <textarea
+                id="contact-message"
                 name="message"
+                autoComplete="off"
                 value={formData.message}
                 onChange={handleChange}
                 required
