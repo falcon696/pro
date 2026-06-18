@@ -404,12 +404,12 @@ export default function Contact() {
                   className="flex h-11 w-11 items-center justify-center rounded-lg border border-emerald-500 bg-emerald-500/10 p-3 text-emerald-100"
                 >
                   <motion.span
-                    className="text-lg"
+                    className="text-2xl text-emerald-100"
                     aria-hidden="true"
-                    animate={{ scale: [1, 1.18, 1], opacity: [1, 0.7, 1] }}
-                    transition={{ repeat: Infinity, duration: 0.9, ease: 'easeInOut' }}
+                    animate={{ y: [0, -6, 0], scale: [1, 1.08, 1] }}
+                    transition={{ repeat: Infinity, duration: 0.7, ease: 'easeInOut' }}
                   >
-                    …
+                    •
                   </motion.span>
                   <span className="sr-only">Sending</span>
                 </motion.div>
