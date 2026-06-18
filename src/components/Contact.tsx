@@ -38,12 +38,12 @@ export default function Contact() {
     email: '',
     message: '',
   });
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'submitted' | 'received' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; message?: string }>({});
 
   useEffect(() => {
-    if (status !== 'success') {
+    if (status !== 'received') {
       return;
     }
 
@@ -141,13 +141,23 @@ export default function Contact() {
         }),
       });
 
-      if (!response.ok) {
+        if (!response.ok) {
         setStatus('error');
         setErrorMessage('Sorry, your message could not be submitted. Please try again later.');
         return;
       }
 
-      setStatus('success');
+      setStatus('submitted');
+      const responseData = await response.json().catch(() => null);
+      const formspreeFailed = responseData && responseData.ok === false;
+
+      if (formspreeFailed) {
+        setStatus('error');
+        setErrorMessage('Formspree rejected the submission. Please try again later.');
+        return;
+      }
+
+      setStatus('received');
       setFormData({ name: '', email: '', message: '' });
       setFieldErrors({});
     } catch (error) {
@@ -377,25 +387,60 @@ export default function Contact() {
               aria-live="polite"
               aria-atomic="true"
             >
-              {status === 'success' && (
-                <div
+              {status === 'sending' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 6 }}
+                  role="status"
+                  className="flex items-center gap-2 rounded-lg border border-slate-500 bg-slate-500/10 p-4 text-sm text-slate-100"
+                >
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-400 text-xs animate-spin">
+                    ⏳
+                  </span>
+                  <span>⏳ Sending</span>
+                </motion.div>
+              )}
+
+              {status === 'submitted' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 6 }}
+                  role="status"
+                  className="flex items-center gap-2 rounded-lg border border-emerald-500 bg-emerald-500/10 p-4 text-sm text-emerald-100"
+                >
+                  <span className="text-lg">✓</span>
+                  <span>✓ Submitted</span>
+                </motion.div>
+              )}
+
+              {status === 'received' && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 6 }}
                   role="status"
                   className="flex items-center gap-2 rounded-lg border border-green-500 bg-green-500/10 p-4 text-sm text-green-100"
                 >
-                  <FiCheckCircle className="h-5 w-5 text-green-400" />
-                  <span id="form-status-success">Your message has been sent. I will reply shortly.</span>
-                </div>
+                  <span className="text-lg">✓✓</span>
+                  <span>✓✓ Received</span>
+                </motion.div>
               )}
 
               {status === 'error' && (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 6 }}
                   role="alert"
-                  className="rounded-lg border border-red-500 bg-red-500/10 p-4 text-sm text-red-100"
+                  className="flex items-start gap-2 rounded-lg border border-red-500 bg-red-500/10 p-4 text-sm text-red-100"
                 >
+                  <span className="text-lg">⚠</span>
                   <p id="form-status-error">
                     {errorMessage || 'Please fix the highlighted fields and try again.'}
                   </p>
-                </div>
+                </motion.div>
               )}
             </motion.div>
           </motion.form>
