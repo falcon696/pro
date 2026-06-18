@@ -403,7 +403,14 @@ export default function Contact() {
                   aria-label="Sending"
                   className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-500 bg-slate-500/10 p-3 text-slate-100"
                 >
-                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-slate-400 border-t-transparent"></span>
+                  <motion.span
+                    className="text-lg"
+                    aria-hidden="true"
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                  >
+                    ◌
+                  </motion.span>
                   <span className="sr-only">Sending</span>
                 </motion.div>
               )}
