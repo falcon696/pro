@@ -2,15 +2,21 @@
 
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiMapPin, FiMail, FiPhone } from 'react-icons/fi';
-import { useState } from 'react';
+import { FiCheckCircle, FiMapPin, FiMail, FiPhone } from 'react-icons/fi';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+
+const reservedDomains = new Set(['example.com', 'example.org', 'example.net']);
 
 export default function Contact() {
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
   });
+
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -19,6 +25,51 @@ export default function Contact() {
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; message?: string }>({});
+
+  useEffect(() => {
+    if (status !== 'success') {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setStatus('idle');
+    }, 5000);
+
+    return () => window.clearTimeout(timeout);
+  }, [status]);
+
+  const validateForm = () => {
+    const errors: typeof fieldErrors = {};
+    const emailValue = formData.email.trim();
+    const nameValue = formData.name.trim();
+    const messageValue = formData.message.trim();
+
+    if (!nameValue) {
+      errors.name = 'Please enter your name.';
+    }
+
+    if (!emailValue) {
+      errors.email = 'Please enter your email.';
+    } else {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(emailValue)) {
+        errors.email = 'Please enter a valid email address.';
+      } else {
+        const domain = emailValue.split('@')[1]?.toLowerCase();
+        if (domain && reservedDomains.has(domain)) {
+          errors.email = 'Please use a real email address.';
+        }
+      }
+    }
+
+    if (!messageValue) {
+      errors.message = 'Please enter a message.';
+    }
+
+    setFieldErrors(errors);
+    return errors;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -26,12 +77,38 @@ export default function Contact() {
       ...prev,
       [name]: value,
     }));
+    setFieldErrors((prev) => ({
+      ...prev,
+      [name]: undefined,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('sending');
+
+    if (status === 'sending') {
+      return;
+    }
+
     setErrorMessage('');
+    const errors = validateForm();
+    const firstErrorKey = Object.keys(errors)[0] as 'name' | 'email' | 'message' | undefined;
+
+    if (firstErrorKey) {
+      setStatus('error');
+
+      if (firstErrorKey === 'name') {
+        nameInputRef.current?.focus();
+      } else if (firstErrorKey === 'email') {
+        emailInputRef.current?.focus();
+      } else if (firstErrorKey === 'message') {
+        messageInputRef.current?.focus();
+      }
+
+      return;
+    }
+
+    setStatus('sending');
 
     try {
       const formspreeEndpoint = 'https://formspree.io/f/xvznnbjz';
@@ -43,24 +120,24 @@ export default function Contact() {
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
         }),
       });
 
       if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
         setStatus('error');
-        setErrorMessage(data?.error || 'Unable to send message.');
+        setErrorMessage('Sorry, your message could not be submitted. Please try again later.');
         return;
       }
 
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
+      setFieldErrors({});
     } catch (error) {
       setStatus('error');
-      setErrorMessage('Network error. Please try again later.');
+      setErrorMessage('Sorry, your message could not be submitted. Please try again later.');
     }
   };
 
@@ -195,13 +272,23 @@ export default function Contact() {
                   id="contact-name"
                   type="text"
                   name="name"
+                  ref={nameInputRef}
                   autoComplete="name"
+                  aria-invalid={!!fieldErrors.name}
+                  aria-describedby={fieldErrors.name ? 'contact-name-error' : undefined}
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg bg-dark/50 border border-primary/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors duration-300"
+                  className={`w-full px-4 py-3 rounded-lg bg-dark/50 border text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors duration-300 ${
+                    fieldErrors.name ? 'border-red-500' : 'border-primary/20'
+                  }`}
                   placeholder="John Doe"
                 />
+                {fieldErrors.name && (
+                  <p id="contact-name-error" className="mt-2 text-sm text-red-400">
+                    {fieldErrors.name}
+                  </p>
+                )}
               </motion.div>
               <motion.div variants={itemVariants}>
                 <label htmlFor="contact-email" className="block text-sm font-semibold text-gray-300 mb-2">
@@ -211,13 +298,23 @@ export default function Contact() {
                   id="contact-email"
                   type="email"
                   name="email"
+                  ref={emailInputRef}
                   autoComplete="email"
+                  aria-invalid={!!fieldErrors.email}
+                  aria-describedby={fieldErrors.email ? 'contact-email-error' : undefined}
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg bg-dark/50 border border-primary/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors duration-300"
+                  className={`w-full px-4 py-3 rounded-lg bg-dark/50 border text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors duration-300 ${
+                    fieldErrors.email ? 'border-red-500' : 'border-primary/20'
+                  }`}
                   placeholder="john@example.com"
                 />
+                {fieldErrors.email && (
+                  <p id="contact-email-error" className="mt-2 text-sm text-red-400">
+                    {fieldErrors.email}
+                  </p>
+                )}
               </motion.div>
             </div>
 
@@ -228,14 +325,24 @@ export default function Contact() {
               <textarea
                 id="contact-message"
                 name="message"
+                ref={messageInputRef}
                 autoComplete="off"
+                aria-invalid={!!fieldErrors.message}
+                aria-describedby={fieldErrors.message ? 'contact-message-error' : undefined}
                 value={formData.message}
                 onChange={handleChange}
                 required
                 rows={6}
-                className="w-full px-4 py-3 rounded-lg bg-dark/50 border border-primary/20 text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors duration-300 resize-none"
+                className={`w-full px-4 py-3 rounded-lg bg-dark/50 border text-white placeholder-gray-500 focus:outline-none focus:border-primary transition-colors duration-300 resize-none ${
+                  fieldErrors.message ? 'border-red-500' : 'border-primary/20'
+                }`}
                 placeholder="Tell me about your project..."
               ></textarea>
+              {fieldErrors.message && (
+                <p id="contact-message-error" className="mt-2 text-sm text-red-400">
+                  {fieldErrors.message}
+                </p>
+              )}
             </motion.div>
 
             <motion.button
@@ -248,12 +355,34 @@ export default function Contact() {
             >
               {status === 'sending' ? 'Sending...' : 'Send Message'}
             </motion.button>
-            {status === 'success' && (
-              <p className="mt-4 text-sm text-green-400">Message sent successfully.</p>
-            )}
-            {status === 'error' && (
-              <p className="mt-4 text-sm text-red-400">{errorMessage || 'Unable to send message.'}</p>
-            )}
+
+            <motion.div
+              variants={itemVariants}
+              className="mt-4"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {status === 'success' && (
+                <div
+                  role="status"
+                  className="flex items-center gap-2 rounded-lg border border-green-500 bg-green-500/10 p-4 text-sm text-green-100"
+                >
+                  <FiCheckCircle className="h-5 w-5 text-green-400" />
+                  <span id="form-status-success">Your message has been sent. I will reply shortly.</span>
+                </div>
+              )}
+
+              {status === 'error' && (
+                <div
+                  role="alert"
+                  className="rounded-lg border border-red-500 bg-red-500/10 p-4 text-sm text-red-100"
+                >
+                  <p id="form-status-error">
+                    {errorMessage || 'Please fix the highlighted fields and try again.'}
+                  </p>
+                </div>
+              )}
+            </motion.div>
           </motion.form>
         </div>
       </div>
