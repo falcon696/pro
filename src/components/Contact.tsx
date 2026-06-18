@@ -377,23 +377,23 @@ export default function Contact() {
               )}
             </motion.div>
 
-            <motion.button
-              variants={itemVariants}
-              type="submit"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              disabled={status === 'sending'}
-              className="btn-primary w-full sm:w-auto disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {status === 'sending' ? 'Sending...' : 'Send Message'}
-            </motion.button>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <motion.button
+                variants={itemVariants}
+                type="submit"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                disabled={status === 'sending'}
+                className="btn-primary w-full sm:w-auto disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {status === 'sending' ? 'Sending...' : 'Send Message'}
+              </motion.button>
 
-            <motion.div
-              variants={itemVariants}
-              className="mt-4"
-              aria-live="polite"
-              aria-atomic="true"
-            >
+              <motion.div
+                variants={itemVariants}
+                aria-live="polite"
+                aria-atomic="true"
+              >
               {status === 'sending' && (
                 <motion.div
                   initial={{ opacity: 0, y: 6 }}
@@ -403,9 +403,7 @@ export default function Contact() {
                   aria-label="Sending"
                   className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-500 bg-slate-500/10 p-3 text-slate-100"
                 >
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-400 text-xs animate-spin">
-                    ⏳
-                  </span>
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-slate-400 border-t-transparent"></span>
                   <span className="sr-only">Sending</span>
                 </motion.div>
               )}
