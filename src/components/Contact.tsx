@@ -38,7 +38,7 @@ export default function Contact() {
     email: '',
     message: '',
   });
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'received' | 'delivered' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'received' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; message?: string }>({});
   const statusTimeouts = useRef<number[]>([]);
@@ -55,7 +55,7 @@ export default function Contact() {
   }, []);
 
   useEffect(() => {
-    if (status !== 'delivered') {
+    if (status !== 'received') {
       return;
     }
 
@@ -163,9 +163,6 @@ export default function Contact() {
       setStatus('sent');
       statusTimeouts.current.push(
         window.setTimeout(() => setStatus('received'), 400)
-      );
-      statusTimeouts.current.push(
-        window.setTimeout(() => setStatus('delivered'), 900)
       );
       setFormData({ name: '', email: '', message: '' });
       setFieldErrors({});
@@ -403,12 +400,13 @@ export default function Contact() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 6 }}
                   role="status"
-                  className="flex items-center gap-3 rounded-lg border border-slate-500 bg-slate-500/10 p-4 text-sm text-slate-100"
+                  aria-label="Sending"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-slate-500 bg-slate-500/10 p-3 text-slate-100"
                 >
                   <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-400 text-xs animate-spin">
                     ⏳
                   </span>
-                  <span>Sending</span>
+                  <span className="sr-only">Sending</span>
                 </motion.div>
               )}
 
@@ -418,10 +416,11 @@ export default function Contact() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 6 }}
                   role="status"
-                  className="flex items-center gap-3 rounded-lg border border-emerald-500 bg-emerald-500/10 p-4 text-sm text-emerald-100"
+                  aria-label="Sent"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-emerald-500 bg-emerald-500/10 p-3 text-emerald-100"
                 >
                   <span className="text-lg">✓</span>
-                  <span>Sent</span>
+                  <span className="sr-only">Sent</span>
                 </motion.div>
               )}
 
@@ -431,23 +430,11 @@ export default function Contact() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 6 }}
                   role="status"
-                  className="flex items-center gap-3 rounded-lg border border-emerald-500 bg-emerald-500/10 p-4 text-sm text-emerald-100"
+                  aria-label="Received"
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-emerald-500 bg-emerald-500/10 p-3 text-emerald-100"
                 >
                   <span className="text-lg">✓✓</span>
-                  <span>Received</span>
-                </motion.div>
-              )}
-
-              {status === 'delivered' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 6 }}
-                  role="status"
-                  className="flex items-center gap-3 rounded-lg border border-green-500 bg-green-500/10 p-4 text-sm text-green-100"
-                >
-                  <span className="text-lg">✓✓</span>
-                  <span>Delivered</span>
+                  <span className="sr-only">Received</span>
                 </motion.div>
               )}
 
@@ -457,12 +444,11 @@ export default function Contact() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 6 }}
                   role="alert"
-                  className="flex items-start gap-2 rounded-lg border border-red-500 bg-red-500/10 p-4 text-sm text-red-100"
+                  aria-label={errorMessage || 'Submission failed'}
+                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-red-500 bg-red-500/10 p-3 text-red-100"
                 >
                   <span className="text-lg">⚠</span>
-                  <p id="form-status-error">
-                    {errorMessage || 'Please fix the highlighted fields and try again.'}
-                  </p>
+                  <span className="sr-only">{errorMessage || 'Submission failed'}</span>
                 </motion.div>
               )}
             </motion.div>
