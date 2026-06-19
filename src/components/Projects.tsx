@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiArrowRight, FiMaximize2, FiX } from 'react-icons/fi';
+import { FiMaximize2, FiX } from 'react-icons/fi';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -113,7 +113,7 @@ export default function Projects() {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-10 mb-16"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-16"
         >
           {projects.map((project) => (
             <motion.div
@@ -164,21 +164,6 @@ export default function Projects() {
           ))}
         </motion.div>
 
-        {/* View All Projects Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center"
-        >
-          <motion.a
-            href="#"
-            whileHover={{ x: 5 }}
-            className="inline-flex items-center gap-2 btn-outline"
-          >
-            View All Projects <FiArrowRight />
-          </motion.a>
-        </motion.div>
       </div>
 
       <AnimatePresence>
