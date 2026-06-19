@@ -37,6 +37,30 @@ export default function Projects() {
       tech: ['Next.js', 'Tailwind', 'Framer Motion'],
       image: '/assets/preview-4.png',
     },
+    {
+      title: 'Social Media Dashboard',
+      description: 'Analytics dashboard for tracking engagement, growth, and campaign performance across social networks.',
+      tech: ['Vue', 'Chart.js', 'API'],
+      image: '/assets/preview-5.png',
+    },
+    {
+      title: 'SaaS Admin Panel',
+      description: 'Admin portal for managing subscriptions, users, and billing with intuitive controls and reports.',
+      tech: ['Next.js', 'TypeScript', 'Prisma'],
+      image: '/assets/preview-6.png',
+    },
+    {
+      title: 'Product Landing Page',
+      description: 'High-conversion landing page with engaging visuals, customer testimonials, and pricing sections.',
+      tech: ['HTML', 'CSS', 'JavaScript'],
+      image: '/assets/preview-7.png',
+    },
+    {
+      title: 'Marketing Campaign Site',
+      description: 'Promotional marketing site built for brand stories, CTAs, and lead generation.',
+      tech: ['React', 'GSAP', 'Contentful'],
+      image: '/assets/preview-8.png',
+    },
   ];
 
   const [selectedProject, setSelectedProject] = useState<typeof projects[number] | null>(null);
