@@ -118,22 +118,6 @@ export default function About() {
           })}
         </motion.div>
 
-        {/* Download CV Button */}
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          className="text-center"
-        >
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="btn-outline inline-block"
-          >
-            Download CV
-          </motion.a>
-        </motion.div>
       </div>
     </section>
   );
