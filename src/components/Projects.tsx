@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiMaximize2, FiX } from 'react-icons/fi';
+import { FiMaximize2 } from 'react-icons/fi';
 import Image from 'next/image';
 import { useState } from 'react';
 
@@ -173,6 +173,7 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+            onClick={() => setSelectedProject(null)}
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
@@ -180,14 +181,8 @@ export default function Projects() {
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.25 }}
               className="relative max-w-4xl w-full rounded-3xl overflow-hidden bg-slate-950 border border-white/10 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
             >
-              <button
-                type="button"
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-20 text-white text-2xl p-2 rounded-full bg-black/50 hover:bg-black"
-              >
-                <FiX />
-              </button>
               <div className="relative h-96 sm:h-[28rem]">
                 <Image
                   src={selectedProject.image}
@@ -231,23 +226,15 @@ export default function Projects() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+            onClick={() => setExpandedImageSrc(null)}
           >
-            <motion.button
-              type="button"
-              onClick={() => setExpandedImageSrc(null)}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="absolute top-4 right-4 z-20 text-white text-2xl p-2 rounded-full bg-black/50 hover:bg-black"
-            >
-              <FiX />
-            </motion.button>
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.25 }}
               className="relative w-full max-w-5xl h-full max-h-[calc(100vh-4rem)] rounded-3xl overflow-hidden border border-white/10 bg-slate-950"
+              onClick={(e) => e.stopPropagation()}
             >
               <Image
                 src={expandedImageSrc}

@@ -13,14 +13,7 @@ export default function TermsOfService() {
       <div className="relative max-w-6xl mx-auto px-4 py-24 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
           <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm text-primary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-primary">
-                <path d="M12 1.75L4.5 5.5V11.75C4.5 16.57 7.9 21.1 12 22.75C16.1 21.1 19.5 16.57 19.5 11.75V5.5L12 1.75Z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M8.5 11.75L11 14.25L15.5 9.75" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Legal
-            </span>
-            <h1 className="mt-6 text-4xl sm:text-5xl font-bold tracking-tight">Terms of Service</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">Terms of Service</h1>
             <p className="mt-6 max-w-2xl text-lg text-gray-300">
               Please read these Terms of Service carefully before using the Falcon website. By accessing or using this site, you agree to comply with these terms.
             </p>

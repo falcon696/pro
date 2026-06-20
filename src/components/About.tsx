@@ -106,10 +106,13 @@ export default function About() {
                   y: -10,
                   boxShadow: '0 0 30px rgba(0, 217, 255, 0.2)',
                 }}
+                transition={{ duration: 0.3 }}
                 className="glow-border p-6 rounded-lg backdrop-blur-sm group cursor-pointer"
               >
-                <div className="text-primary text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                  <Icon />
+                <div className="mb-4 flex h-10 w-10 items-center justify-center">
+                  <div className="inline-flex origin-center text-primary text-4xl transition-transform duration-300 group-hover:scale-125">
+                    <Icon />
+                  </div>
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-white">{feature.title}</h3>
                 <p className="text-gray-400 text-sm">{feature.description}</p>
