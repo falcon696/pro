@@ -17,7 +17,12 @@ import {
   SiNextdotjs,
   SiOpenai,
   SiEthereum,
+  SiWordpress,
+  SiShopify,
+  SiRust,
+  SiNuxtdotjs,
 } from 'react-icons/si';
+import { HiOutlineShoppingCart } from 'react-icons/hi2';
 
 export default function Technologies() {
   const { ref, inView } = useInView({
@@ -40,6 +45,11 @@ export default function Technologies() {
     { icon: SiOpenai, name: 'AI / OpenAI', color: '#10B981' },
     { icon: SiEthereum, name: 'Blockchain', color: '#627EEA' },
     { icon: SiNextdotjs, name: 'Next.js', color: '#FFFFFF' },
+    { icon: SiRust, name: 'Rust', color: '#DEA584' },
+    { icon: SiNuxtdotjs, name: 'Nuxt', color: '#00DC82' },
+    { icon: SiWordpress, name: 'WordPress', color: '#21759B' },
+    { icon: HiOutlineShoppingCart, name: 'Ecommerce', color: '#F59E0B' },
+    { icon: SiShopify, name: 'Shopify', color: '#96BF48' },
   ];
 
   const containerVariants = {

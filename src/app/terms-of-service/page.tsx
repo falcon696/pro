@@ -102,10 +102,7 @@ export default function TermsOfService() {
         </div>
 
         <div className="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-2xl border border-cyan-400/70 px-8 py-4 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-400/10"
-          >
+          <Link href="/" className="btn-outline inline-flex items-center justify-center px-6 py-3">
             ← Back to Home
           </Link>
           <span className="text-sm text-gray-400">Need help? Use the contact page for direct support.</span>
