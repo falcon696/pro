@@ -91,9 +91,6 @@ export default function Testimonials() {
               whileHover={{ y: -10 }}
               className="glow-border p-8 rounded-lg backdrop-blur-sm flex flex-col"
             >
-              {/* Quotation Mark */}
-              <div className="text-5xl text-primary/30 mb-4">"</div>
-
               {/* Rating */}
               <div className="flex gap-1 mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
